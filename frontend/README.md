@@ -1,62 +1,4 @@
-# task_manger
-
-# Backend
-
-Lightweight PHP REST API (MVC-like structure) for managing tasks.
-
-## Project structure
-
-- `index.php` — Front controller (delegates to `routes/api.php`).
-- `routes/api.php` — Routes dispatcher that reads `routes/links_map.php` and calls controller actions.
-- `routes/links_map.php` — Route map array (method, path, action) used by the dispatcher.
-- `app/`
-  - `models/Task.php` — DB access methods (all, find, create, update, delete).
-  - `controllers/TaskController.php` — Controller methods: index, store, update, destroy, etc.
-  - `views/JsonView.php` — Helper to render JSON responses.
-- `database/`
-  - `config.php` — PDO config (supports env vars: DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS).
-  - `tables/tasks.sql` — SQL to create `task_manager` database and `tasks` table.
-
-## Requirements
-
-- PHP 7.4+ (tested with PHP 8.x)
-- MySQL server
-
-## Environment variables (optional)
-
-The app reads DB connection values from `database/config.php`. You can set these env vars to override defaults:
-
-```bash
-export DB_HOST=127.0.0.1
-export DB_PORT=3306
-export DB_NAME=task_manager
-export DB_USER=root
-export DB_PASS=''
-```
-
-## Initialize database (one-time)
-
-Interactive (recommended):
-
-```bash
-mysql -u root -p
-# Then paste the SQL in `database/tables/tasks.sql`
-```
-
-## Run the server
-
-Start the PHP built-in server from the project root. Use `index.php` as the front controller:
-
-```bash
-php -S localhost:8000 index.php
-```
-
-## Route map
-
-Routes are defined in `routes/links_map.php`
-
-
-# Frontend
+# tasks
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -125,3 +67,27 @@ If not set, the app defaults to `https://task.test`.
 ```bash
 npm run dev
 ```
+
+Open the URL printed by Vite (typically http://localhost:5173 or 5174).
+
+## How the Kanban UI works
+
+- There are 4 tabs at the top: `Board`, `Pending`, `In Progress`, and `Done`.
+- `Board` shows three columns (Pending / In Progress / Done). Use the arrow buttons to move tasks between columns.
+- Each task card has Edit and Delete actions. Create a new task using the form at the top (title + optional body).
+- The Task API endpoints used by the client (see `src/services/tasks.js`) are:
+  - GET /tasks
+  - POST /tasks
+  - PUT /tasks/{id}
+  - DELETE /tasks/{id}
+
+## Tailwind CSS
+
+The project uses Tailwind for styling. The Tailwind CSS entry is at `src/assets/tailwind.css`. If you experience errors about `@apply`, make sure the PostCSS pipeline is configured correctly for your installed Tailwind version. I adjusted the project to import the compiled Tailwind CSS, but if you need `@apply` to be processed you may need to adjust `postcss.config.cjs` or install the appropriate PostCSS plugin.
+
+## Notes
+
+- If you need a local mock backend for development, I can add a dev-only mock mode to `src/services/tasks.js`.
+- If you want drag-and-drop between columns, I can add `SortableJS` or `Vue Draggable` and wire it up.
+
+If you'd like me to add any of those (mock backend, dnd), tell me which and I'll implement it.
